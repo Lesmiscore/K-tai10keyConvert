@@ -71,11 +71,11 @@
             if (nowNum == now) {
                 nowCount++;
             } else if (nowNum == " ") {
-                buf += KTai10K.encodeData[nowNum][nowCount];
+                buf += KTai10K.encodeData[nowNum][nowCount - 1];
                 nowNum = read.read();
                 nowCount = 1;
             } else {
-                buf += KTai10K.encodeData[nowNum][nowCount];
+                buf += KTai10K.encodeData[nowNum][nowCount - 1];
                 nowNum = read.read();
                 nowCount = 1;
             }
@@ -171,6 +171,9 @@
                         ignoreSpecial = true;
                         break;
                     default:
+                        if (ignoreSpecial) {
+                            ignoreSpecial = false;
+                        }
                         res += now;
                         continue;
                 }
@@ -178,14 +181,69 @@
         }
         return res;
     }
-    
-    public static hiraganaToNumber(str:string):string {
-        var datas = [];
+
+    public static hiraganaToNumber(str: string): string {
+        var buf = "";
         var read = new StringReadingHelper(str);
         while (read.peek() !== null) {
+            var now = read.read();
 
+            var where1 = -1;
+            var where2 = -1;
+            var where3 = "";
+            for (var i in KTai10K.encodeData) {
+                var index = KTai10K.encodeData[i].indexOf(now);
+                if (index != -1) {
+                    where1 = i;
+                    where2 = index;
+                    where3 = "default";
+                }
+            }
+
+            for (var i in KTai10K.dakuten) {
+                var index = KTai10K.dakuten[i].indexOf(now);
+                if (index != -1) {
+                    where1 = i;
+                    where2 = index;
+                    where3 = "dakuten";
+                }
+            }
+
+            for (var i in KTai10K.handakuten) {
+                var index = KTai10K.handakuten[i].indexOf(now);
+                if (index != -1) {
+                    where1 = i;
+                    where2 = index;
+                    where3 = "handakuten";
+                }
+            }
+
+            if ((where1 == -1) || (where2 == -1) || (where3 == "") || (now == "　")) {
+                continue;
+            }
+
+            where1++;
+            switch (where3) {
+                case "default":
+                    buf += KTai10K.encodeData[where1][where2];
+                    break;
+                case "dakuten":
+                    var c = KTai10K.dakuten[where1][where2];
+                    if (c == "　") {
+                        continue;
+                    }
+                    buf += c;
+                    break;
+                case "handakuten":
+                    var c = KTai10K.handakuten[where1][where2];
+                    if (c == "　") {
+                        continue;
+                    }
+                    buf += c;
+                    break;
+            }
         }
-
+        return buf;
     }
 }
 class StringReadingHelper {
