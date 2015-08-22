@@ -225,21 +225,18 @@
             where1++;
             switch (where3) {
                 case "default":
-                    buf += KTai10K.encodeData[where1][where2];
+                    for (var j = 0; j < (where2 + 1); j++)
+                        buf += where1;
                     break;
                 case "dakuten":
-                    var c = KTai10K.dakuten[where1][where2];
-                    if (c == "　") {
-                        continue;
-                    }
-                    buf += c;
+                    for (var j = 0; j < (where2 + 1); j++)
+                        buf += where1;
+                     buf += "#";
                     break;
                 case "handakuten":
-                    var c = KTai10K.handakuten[where1][where2];
-                    if (c == "　") {
-                        continue;
-                    }
-                    buf += c;
+                    for (var j = 0; j < (where2 + 1); j++)
+                        buf += where1;
+                    buf += "##";
                     break;
             }
         }
