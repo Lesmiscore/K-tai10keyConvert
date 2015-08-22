@@ -75,8 +75,8 @@
                 nowNum = read.read();
                 nowCount = 1;
             }
-            return KTai10K.pack(buf);
         }
+        return KTai10K.pack(buf);
     }
     private static pack(text: string): string {
         var read = new StringReadingHelper(text);
@@ -169,7 +169,7 @@
                     default:
                         res += now;
                         continue;
-                 }
+                }
             }
         }
         return res;
