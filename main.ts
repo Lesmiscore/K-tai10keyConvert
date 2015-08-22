@@ -100,11 +100,76 @@
                         for (var i in KTai10K.encodeData) {
                             var index = KTai10K.encodeData[i].indexOf(last);
                             if (index != -1) {
-
+                                where1 = i;
+                                where2 = index;
                             }
                         }
+                        if ((where1 == -1) || (where2 == -1)) {
+                            continue;
+                        }
+                        var shouldReplace = KTai10K.dakuten[where1][where2];
+                        if (shouldReplace == "　") {
+                            continue;
+                        }
+                        res += shouldReplace;
+                        ignoreSpecial = true;
                         break;
-                }
+                    case ")":
+                        if (ignoreSpecial) {
+                            ignoreSpecial = false;
+                            continue;
+                        }
+                        var last = res.charAt(res.length - 1);
+                        res = res.substr(0, res.length - 1);
+                        var where1 = -1;
+                        var where2 = -1;
+                        for (var i in KTai10K.encodeData) {
+                            var index = KTai10K.encodeData[i].indexOf(last);
+                            if (index != -1) {
+                                where1 = i;
+                                where2 = index;
+                            }
+                        }
+                        if ((where1 == -1) || (where2 == -1)) {
+                            continue;
+                        }
+                        var shouldReplace = KTai10K.handakuten[where1][where2];
+                        if (shouldReplace == "　") {
+                            continue;
+                        }
+                        res += shouldReplace;
+                        ignoreSpecial = true;
+                        break;
+                    case "(":
+                        if (ignoreSpecial) {
+                            ignoreSpecial = false;
+                            continue;
+                        }
+                        var last = res.charAt(res.length - 1);
+                        res = res.substr(0, res.length - 1);
+                        var where1 = -1;
+                        var where2 = -1;
+                        for (var i in KTai10K.encodeData) {
+                            var index = KTai10K.encodeData[i].indexOf(last);
+                            if (index != -1) {
+                                where1 = i;
+                                where2 = index;
+                            }
+                        }
+                        if ((where1 == -1) || (where2 == -1)) {
+                            continue;
+                        }
+                        var shouldReplace = KTai10K.sutegana[where1][where2];
+                        if (shouldReplace == "　") {
+                            continue;
+                        }
+                        res += shouldReplace;
+                        ignoreSpecial = true;
+                        break;
+                    default:
+                        res += now;
+                        continue;
+                 }
             }
         }
         return res;
