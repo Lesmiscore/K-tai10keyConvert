@@ -70,6 +70,10 @@
             var now = read.read();
             if (nowNum == now) {
                 nowCount++;
+            } else if (nowNum == " ") {
+                buf += KTai10K.encodeData[nowNum][nowCount];
+                nowNum = read.read();
+                nowCount = 1;
             } else {
                 buf += KTai10K.encodeData[nowNum][nowCount];
                 nowNum = read.read();
