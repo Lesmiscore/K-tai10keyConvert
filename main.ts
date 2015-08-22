@@ -178,6 +178,15 @@
         }
         return res;
     }
+    
+    public static hiraganaToNumber(str:string):string {
+        var datas = [];
+        var read = new StringReadingHelper(str);
+        while (read.peek() !== null) {
+
+        }
+
+    }
 }
 class StringReadingHelper {
     private str: string;
